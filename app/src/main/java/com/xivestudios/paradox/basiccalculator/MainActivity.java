@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -41,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
             init = true;
         }
         Button temp = (Button) view;
+        if(result.getText().toString().endsWith(".")
+                && temp.getText().toString().equals(".")
+                && curentOprator==""){
+            return;
+        }
         result.append(temp.getText().toString());
     }
 
@@ -77,6 +83,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private String dummifyNumber(String num){
+        if(num.equals(".")){
+            num = "0.0";
+        }
+        return num;
+    }
+
     public void appendOprator(View view){
         if(isAlreadyInOpration()){
             return;
@@ -94,8 +107,13 @@ public class MainActivity extends AppCompatActivity {
                 if(result.getText().toString().startsWith("-") && !n1.startsWith("-")){
                     n1 = "-"+n1;
                 }
-
-                calculate(n1, n2);
+                try {
+                    n1 = dummifyNumber(n1);
+                    n2 = dummifyNumber(n2);
+                    calculate(n1, n2);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
             if(!temp.getText().toString().equals("="))
             result.append(temp.getText().toString());
