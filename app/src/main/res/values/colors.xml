@@ -5,4 +5,5 @@
     <color name="colorAccent">#ffffff</color>
     <color name="btncolor">#2979ff</color>
     <color name="btnbgcolor">#3176e9</color>
+    <color name="lytbgcolor">#67448aff</color>
 </resources>

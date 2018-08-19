@@ -1,10 +1,13 @@
 package com.xivestudios.paradox.basiccalculator;
 
+import android.animation.Animator;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
@@ -30,10 +33,29 @@ public class MainActivity extends AppCompatActivity {
         init();
     }
 
+    protected void clearAnimation(){
+        if(Build.VERSION.SDK_INT >= 21) {
+            int x = result.getWidth();
+            int y = result.getHeight()/2;
+
+            int startRadius = 0;
+            int endRadius = (int) Math.hypot(result.getWidth(), result.getHeight());
+
+            Animator anim = ViewAnimationUtils.createCircularReveal(result, x, y, startRadius, endRadius);
+            anim.setDuration(800);
+            result.setVisibility(View.VISIBLE);
+            anim.start();
+        }else{
+            result.setVisibility(View.VISIBLE);
+        }
+    }
+
     public void resetResult(View view){
         init = false;
         result.setText("0");
         curentOprator = "";
+        result.setVisibility(View.INVISIBLE);
+        clearAnimation();
     }
 
     public void appendNumber(View view) {
